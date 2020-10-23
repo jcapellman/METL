@@ -1,13 +1,19 @@
-﻿using METL.Enums;
-
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
+
+using METL.Enums;
 
 namespace METL
 {
     public class METLParser
     {
-        public byte[] EmbedFromBytes([NotNull]byte[] source, [NotNull]byte[] embedBytes, GenerationOption generationOption = GenerationOption.APPEND)
+        public static byte[] EmbedFromBytes([NotNull]byte[] source, [NotNull]byte[] embedBytes, GenerationOption generationOption = GenerationOption.APPEND)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             switch (generationOption)
             {
                 case GenerationOption.APPEND:
