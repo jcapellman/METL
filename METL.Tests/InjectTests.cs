@@ -12,14 +12,14 @@ namespace METL.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullCode()
         {
-            METLParser.InjectMalwareFromFile(null, null);
+            METLInjector.InjectMalwareFromFile(null, null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(FileNotFoundException))]
         public void CodeNotFound()
         {
-            METLParser.InjectMalwareFromFile(Path.GetRandomFileName(), Path.GetRandomFileName());
+            METLInjector.InjectMalwareFromFile(Path.GetRandomFileName(), Path.GetRandomFileName());
         }
     }
 }

