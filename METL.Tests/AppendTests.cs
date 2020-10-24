@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace METL.Tests
 {
     [TestClass]
-    public class ParserTests
+    public class AppendTests
     {
         [TestMethod]
         [ExpectedException(typeof(FileNotFoundException))]
