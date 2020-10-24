@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text;
 
 namespace METL
 {
@@ -33,6 +34,37 @@ namespace METL
             System.Buffer.BlockCopy(embedBytes, 0, source, 0, source.Length);
   
             return embedBytes;
+        }
+
+        public static byte[] InjectMalwareFromFile([NotNull]string sourceFileName, [NotNull]string malwareFileName)
+        {
+            if (string.IsNullOrEmpty(sourceFileName))
+            {
+                throw new ArgumentNullException(sourceFileName);
+            }
+
+            if (string.IsNullOrEmpty(malwareFileName))
+            {
+                throw new ArgumentNullException(malwareFileName);
+            }
+
+            if (!File.Exists(sourceFileName))
+            {
+                throw new FileNotFoundException(sourceFileName);
+            }
+
+            if (!File.Exists(malwareFileName))
+            {
+                throw new FileNotFoundException(malwareFileName);
+            }
+
+            var sourceCodeFileText = File.ReadAllText(sourceFileName);
+
+            var malwareBytes = File.ReadAllBytes(malwareFileName);
+
+
+
+            return Encoding.ASCII.GetBytes(sourceCodeFileText);
         }
     }
 }
