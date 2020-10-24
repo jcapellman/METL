@@ -14,7 +14,7 @@ namespace METL.Tests
         {
             var parser = new METLParser();
 
-            METLParser.EmbedFromFile(null, Path.GetRandomFileName(), Enums.GenerationOption.APPEND);
+            METLParser.AppendBytesFromFile(null, Path.GetRandomFileName());
         }
 
         [TestMethod]
@@ -23,7 +23,7 @@ namespace METL.Tests
         {
             var parser = new METLParser();
 
-            METLParser.EmbedFromBytes(null, null, Enums.GenerationOption.APPEND);
+            METLParser.AppendBytesFromBytes(null, null);
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace METL.Tests
         {
             var parser = new METLParser();
 
-            METLParser.EmbedFromFile(null, null, Enums.GenerationOption.APPEND);
+            METLParser.AppendBytesFromFile(null, null);
         }
     }
 }
