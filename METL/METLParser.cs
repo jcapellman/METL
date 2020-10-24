@@ -15,6 +15,11 @@ namespace METL
                 throw new ArgumentNullException(nameof(embedFileName));
             }
 
+            if (!File.Exists(embedFileName))
+            {
+                throw new FileNotFoundException(embedFileName);
+            }
+
             var embedBytes = File.ReadAllBytes(embedFileName);
 
             return EmbedFromBytes(source, embedBytes, generationOption);
