@@ -15,5 +15,14 @@ namespace METL.Tests
 
             METLParser.EmbedFromBytes(null, null, Enums.GenerationOption.APPEND);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NullEmbedFileName()
+        {
+            var parser = new METLParser();
+
+            METLParser.EmbedFromFile(null, null, Enums.GenerationOption.APPEND);
+        }
     }
 }
