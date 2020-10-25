@@ -21,5 +21,17 @@ namespace METL.Tests
         {
             METLInjector.InjectMalwareFromFile(Path.GetRandomFileName(), Path.GetRandomFileName());
         }
+
+        [TestMethod]
+        public void PEInjector()
+        {
+            var sourceFile = Path.Combine(AppContext.BaseDirectory, "Samples/PE32.cs");
+
+            var malFile = Path.Combine(AppContext.BaseDirectory, "Samples/sourcePE");
+
+            var injectedBytes = METLInjector.InjectMalwareFromFile(sourceFile, malFile);
+
+            File.WriteAllBytes("injected.exe", injectedBytes);
+        }
     }
 }

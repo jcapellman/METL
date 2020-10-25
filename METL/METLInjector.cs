@@ -38,8 +38,6 @@ namespace METL
                     .Select(asm => MetadataReference.CreateFromFile(asm))
                     .ToList();
 
-            Console.WriteLine($"{references.Count} assemblies found...");
-
             var tempFile = Path.GetTempFileName();
 
             var result = CSharpCompilation.Create("METL",
@@ -62,8 +60,6 @@ namespace METL
             {
                 File.Delete(tempFile);
             }
-
-            Console.WriteLine("Failed to Generated C# DLL...");
 
             var failures = result.Diagnostics.Where(diagnostic => diagnostic.IsWarningAsError || diagnostic.Severity == DiagnosticSeverity.Error);
 

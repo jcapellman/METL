@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30615.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "METL", "METL\METL.csproj", "{581FCCD7-5308-46AD-8193-5D73F8FCDDD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "METL.Tests", "METL.Tests\METL.Tests.csproj", "{EBED4EDC-6482-4EC6-A7DA-DEA03EA7F2FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "METL.Tests", "METL.Tests\METL.Tests.csproj", "{EBED4EDC-6482-4EC6-A7DA-DEA03EA7F2FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "METL.InjectorSamples.PE32", "METL.InjectorSamples.PE32\METL.InjectorSamples.PE32.csproj", "{EB9144C2-06E8-4401-A66C-C2B1455CD6E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{EBED4EDC-6482-4EC6-A7DA-DEA03EA7F2FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBED4EDC-6482-4EC6-A7DA-DEA03EA7F2FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBED4EDC-6482-4EC6-A7DA-DEA03EA7F2FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB9144C2-06E8-4401-A66C-C2B1455CD6E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB9144C2-06E8-4401-A66C-C2B1455CD6E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB9144C2-06E8-4401-A66C-C2B1455CD6E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB9144C2-06E8-4401-A66C-C2B1455CD6E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
