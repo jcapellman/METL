@@ -31,6 +31,8 @@ namespace METL.Tests
 
             var injectedBytes = METLInjector.InjectMalwareFromFile(sourceFile, malFile);
 
+            Assert.IsTrue(injectedBytes != null && injectedBytes.Length > 0);
+
             File.WriteAllBytes("injected.exe", injectedBytes);
         }
     }

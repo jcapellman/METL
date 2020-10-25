@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-
+using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.Extensions.DependencyModel;
 
 namespace METL
 {
@@ -14,16 +13,7 @@ namespace METL
     {
         private static string GenerateCodeFromBytes(byte[] fileBytes)
         {
-            var malwareSourceCode = "byte[] malSource = {";
-
-            var array = new List<string>(fileBytes.Length);
-
-            foreach (var fileByte in fileBytes)
-            {
-                array.Add($"0x{fileByte}");
-            }
-
-            return malwareSourceCode + string.Join(",", array) + "};";
+            return $"string malSource = \"{Convert.ToBase64String(fileBytes)}\";";
         }
 
         private static byte[] CompileCodeToBytes(string sourceCode)
@@ -32,11 +22,13 @@ namespace METL
 
             var parsedSyntaxTree = SyntaxFactory.ParseSyntaxTree(sourceCode, options);
 
-            var references =
-                DependencyContext.Default.CompileLibraries
-                    .SelectMany(cl => cl.ResolveReferencePaths())
-                    .Select(asm => MetadataReference.CreateFromFile(asm))
-                    .ToList();
+            MetadataReference[] references = new MetadataReference[]
+            {
+                MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(Console).GetTypeInfo().Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(File).GetTypeInfo().Assembly.Location),
+                MetadataReference.CreateFromFile(@"C:\Program Files\dotnet\shared\Microsoft.NETCore.App\5.0.0-rc.2.20475.5\System.Runtime.dll")
+            };
 
             var tempFile = Path.GetTempFileName();
 
