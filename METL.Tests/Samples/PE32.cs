@@ -7,7 +7,7 @@ namespace METL.InjectorSamples.PE32
     {
         static void Main(string[] args)
         {
-            [MALWARE]
+            [MALWARE_EMBED]
 
             Console.WriteLine("0wn3d by MET&L on [TIMESTAMP]");
 

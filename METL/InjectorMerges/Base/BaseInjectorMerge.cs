@@ -4,6 +4,6 @@
     {
         public abstract string FIELD_NAME { get; }
 
-        public abstract string Merge();
+        public abstract string Merge(string argument = null);
     }
 }
