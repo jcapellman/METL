@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="IncludedScripts\PE32.cs" />
+    <EmbeddedResource Include="IncludedScripts\PE32.cs" />
   </ItemGroup>
 
   <ItemGroup>

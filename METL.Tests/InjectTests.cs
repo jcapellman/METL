@@ -12,7 +12,7 @@ namespace METL.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullCode()
         {
-            METLInjector.InjectMalwareFromFile(null, null);
+            METLInjector.InjectMalwareFromFile(sourceFileName: null, arguments: null);
         }
 
         [TestMethod]
@@ -20,6 +20,13 @@ namespace METL.Tests
         public void CodeNotFound()
         {
             METLInjector.InjectMalwareFromFile(Path.GetRandomFileName(), Path.GetRandomFileName());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TemplateNotFound()
+        {
+            METLInjector.InjectMalwareFromTemplate("WICK", Path.GetRandomFileName());
         }
 
         [TestMethod]
