@@ -12,12 +12,12 @@ Two methods are available:
 
 #### Append from a file path
 <code>
-  AppendBytesFromFile([NotNull]byte[] source, string embedFileName)
+  AppendBytesFromFile(byte[] source, string embedFileName)
 </code>
 
 #### Append from bytes
 <code>
-   AppendBytesFromBytes([NotNull]byte[] source, [NotNull]byte[] embedBytes)
+   AppendBytesFromBytes(byte[] source, byte[] embedBytes)
 </code>
 
 ### Injection
