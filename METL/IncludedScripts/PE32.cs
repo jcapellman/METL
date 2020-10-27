@@ -6,9 +6,9 @@ namespace METL.InjectorSamples.PE32
     {
         static void Main(string[] args)
         {
-            [PLACEHOLDER]
+            [MALWARE_EMBED]
 
-            Console.WriteLine($"0wn3d by METL on {DateTime.Now}");
+            Console.WriteLine("0wn3d by METL on [TIMESTAMP]");
         }
     }
 }

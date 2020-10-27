@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
+using METL.Enums;
 using METL.InjectorMerges.Base;
 
 using Microsoft.CodeAnalysis;
@@ -73,11 +73,13 @@ namespace METL
             return sourceFile;
         }
 
+        public static byte[] InjectMalwareFromTemplate(BuiltInTemplates template, [NotNull] string malwareFileName) => InjectMalwareFromTemplate(template.ToString(), malwareFileName);
+
         public static byte[] InjectMalwareFromTemplate([NotNull]string templateName, [NotNull] string malwareFileName)
         {
             var assembly = typeof(METLInjector).GetTypeInfo().Assembly;
 
-            Stream resource = assembly.GetManifestResourceStream($"IncludedScripts.{templateName}.cs");
+            Stream resource = assembly.GetManifestResourceStream($"METL.IncludedScripts.{templateName}.cs");
 
             if (resource == null)
             {

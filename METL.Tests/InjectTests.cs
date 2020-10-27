@@ -30,6 +30,14 @@ namespace METL.Tests
         }
 
         [TestMethod]
+        public void TemplatePE32()
+        {
+            var malFile = Path.Combine(AppContext.BaseDirectory, "Samples/sourcePE");
+
+            METLInjector.InjectMalwareFromTemplate(Enums.BuiltInTemplates.PE32, malFile);
+        }
+
+        [TestMethod]
         public void PEInjector()
         {
             var sourceFile = Path.Combine(AppContext.BaseDirectory, "Samples/PE32.cs");
