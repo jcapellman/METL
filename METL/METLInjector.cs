@@ -4,6 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime;
+using System.Runtime.InteropServices;
 using METL.Enums;
 using METL.InjectorMerges.Base;
 
@@ -20,12 +22,12 @@ namespace METL
 
             var parsedSyntaxTree = SyntaxFactory.ParseSyntaxTree(sourceCode, options);
 
-            MetadataReference[] references = new MetadataReference[]
+            var references = new MetadataReference[]
             {
                 MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(Console).GetTypeInfo().Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(File).GetTypeInfo().Assembly.Location),
-                MetadataReference.CreateFromFile(@"C:\Program Files\dotnet\shared\Microsoft.NETCore.App\5.0.0-rc.2.20475.5\System.Runtime.dll")
+                MetadataReference.CreateFromFile(Path.Combine(RuntimeEnvironment.GetRuntimeDirectory(), "System.Runtime.dll"))
             };
 
             var tempFile = Path.GetTempFileName();
