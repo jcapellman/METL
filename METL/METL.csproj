@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.1</Version>
+    <Authors>Jarred Capellman</Authors>
+    <Description>Initial version supporting Injection and Appending</Description>
+    <Copyright>2020 Jarred Capellman</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/jcapellman/METL</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jcapellman/METL</RepositoryUrl>
+    <PackageTags>infosec, malware research</PackageTags>
+    <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +29,13 @@
   <ItemGroup>
 	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0-5.final" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0-rc.2.20475.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
