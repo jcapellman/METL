@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -44,6 +45,25 @@ namespace METL.Tests
             var sourceFile = Path.Combine(AppContext.BaseDirectory, "Samples/PE32Bad.cs");
 
             METLInjector.InjectMalwareFromFile(sourceFile, malFile);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FileNotFoundException))]
+        public void PE32BadMalwareFile()
+        {
+            var malFile = Path.Combine(AppContext.BaseDirectory, DateTime.Now.ToString(CultureInfo.InvariantCulture));
+            var sourceFile = Path.Combine(AppContext.BaseDirectory, "Samples/PE32Bad.cs");
+
+            METLInjector.InjectMalwareFromFile(sourceFile, malFile);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PE32NullMalwareFile()
+        {
+            var sourceFile = Path.Combine(AppContext.BaseDirectory, "Samples/PE32Bad.cs");
+
+            METLInjector.InjectMalwareFromFile(sourceFile, "");
         }
 
         [TestMethod]
