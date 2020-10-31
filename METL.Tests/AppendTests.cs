@@ -23,6 +23,24 @@ namespace METL.Tests
         }
 
         [TestMethod]
+        public void ValidSourceBytes()
+        {
+            var sourceFile = Path.Combine(AppContext.BaseDirectory, "Samples/PE32Bad.cs");
+            var destFile = Path.Combine(AppContext.BaseDirectory, "Samples/PE32Bad.cs");
+
+            METLAppender.AppendBytesFromBytes(File.ReadAllBytes(sourceFile), File.ReadAllBytes(destFile));
+        }
+
+        [TestMethod]
+        public void ValidSourcFiles()
+        {
+            var sourceFile = Path.Combine(AppContext.BaseDirectory, "Samples/PE32Bad.cs");
+            var destFile = Path.Combine(AppContext.BaseDirectory, "Samples/PE32Bad.cs");
+
+            METLAppender.AppendBytesFromFile(File.ReadAllBytes(sourceFile), destFile);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullEmbedFileName()
         {
