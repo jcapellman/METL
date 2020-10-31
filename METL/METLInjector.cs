@@ -48,11 +48,6 @@ namespace METL
                 return bytes;
             }
 
-            if (File.Exists(tempFile))
-            {
-                File.Delete(tempFile);
-            }
-
             var failures = result.Diagnostics.Where(diagnostic => diagnostic.IsWarningAsError || diagnostic.Severity == DiagnosticSeverity.Error);
 
             foreach (var diagnostic in failures)

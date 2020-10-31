@@ -38,6 +38,15 @@ namespace METL.Tests
         }
 
         [TestMethod]
+        public void PE32BadCode()
+        {
+            var malFile = Path.Combine(AppContext.BaseDirectory, "Samples/sourcePE");
+            var sourceFile = Path.Combine(AppContext.BaseDirectory, "Samples/PE32Bad.cs");
+
+            METLInjector.InjectMalwareFromFile(sourceFile, malFile);
+        }
+
+        [TestMethod]
         public void PEInjector()
         {
             var sourceFile = Path.Combine(AppContext.BaseDirectory, "Samples/PE32.cs");
