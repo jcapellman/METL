@@ -4,8 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime;
 using System.Runtime.InteropServices;
+
 using METL.Enums;
 using METL.InjectorMerges.Base;
 
@@ -60,14 +60,16 @@ namespace METL
 
         private static string ParseAndMergeSource(string sourceFile, Dictionary<string, string> arguments)
         {
-            var merges = Assembly.GetAssembly(typeof(BaseInjectorMerge)).GetTypes().Where(a => a.BaseType == typeof(BaseInjectorMerge) && !a.IsAbstract).Select(b => (BaseInjectorMerge)Activator.CreateInstance(b)).ToList();
+            var merges = Assembly.GetAssembly(typeof(BaseInjectorMerge))?.GetTypes().Where(a => a.BaseType == typeof(BaseInjectorMerge) && !a.IsAbstract).Select(b => (BaseInjectorMerge)Activator.CreateInstance(b)).ToList();
 
-            foreach (var merge in merges)
+            if (merges == null)
             {
-                sourceFile = sourceFile.Replace($"[{merge.FIELD_NAME}]", merge.Merge(arguments.ContainsKey(merge.FIELD_NAME) ? arguments[merge.FIELD_NAME] : null));
+                throw new NullReferenceException($"Failed to obtain mail merges on {sourceFile}");
             }
 
-            return sourceFile;
+            return merges.Aggregate(sourceFile, (current, merge) => 
+                current.Replace($"[{merge.FIELD_NAME}]", 
+                    merge.Merge(arguments.ContainsKey(merge.FIELD_NAME) ? arguments[merge.FIELD_NAME] : null)));
         }
 
         public static byte[] InjectMalwareFromTemplate(BuiltInTemplates template, [NotNull] string malwareFileName) => InjectMalwareFromTemplate(template.ToString(), malwareFileName);
