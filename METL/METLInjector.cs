@@ -1,61 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 using METL.Enums;
 using METL.InjectorMerges.Base;
-
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace METL
 {
     public class METLInjector
     {
+        // TODO: Clean up to use a series of helper methods to wrap .NET CLI Calls
         private static byte[] CompileCodeToBytes(string sourceCode)
         {
-            var options = CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp9);
+            var projectName = Guid.NewGuid().ToString().Replace("-","");
 
-            var parsedSyntaxTree = SyntaxFactory.ParseSyntaxTree(sourceCode, options);
+            var fullPath = Path.Combine(AppContext.BaseDirectory, projectName);
 
-            var references = new MetadataReference[]
-            {
-                MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(Console).GetTypeInfo().Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(File).GetTypeInfo().Assembly.Location),
-                MetadataReference.CreateFromFile(Path.Combine(RuntimeEnvironment.GetRuntimeDirectory(), "System.Runtime.dll"))
-            };
+            var binaryOutput = Path.Combine(fullPath, $"Output\\{projectName}.exe");
+            Directory.CreateDirectory(fullPath);
 
-            var tempFile = Path.GetTempFileName();
+            Process.Start($"dotnet new console -n {projectName}");
 
-            var result = CSharpCompilation.Create("METL",
-                new[] { parsedSyntaxTree },
-                references: references,
-                options: new CSharpCompilationOptions(OutputKind.ConsoleApplication,
-                    optimizationLevel: OptimizationLevel.Release,
-                    assemblyIdentityComparer: DesktopAssemblyIdentityComparer.Default)).Emit(tempFile);
+            File.WriteAllText(Path.Combine(fullPath, "Program.cs"), sourceCode);
 
-            if (result.Success)
-            {
-                var bytes = File.ReadAllBytes(tempFile);
+            Process.Start($"dotnet build -c Release -o Output");
 
-                File.Delete(tempFile);
-
-                return bytes;
-            }
-
-            var failures = result.Diagnostics.Where(diagnostic => diagnostic.IsWarningAsError || diagnostic.Severity == DiagnosticSeverity.Error);
-
-            foreach (var diagnostic in failures)
-            {
-                Console.Error.WriteLine("{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
-            }
-
-            return null;
+            return File.ReadAllBytes(binaryOutput);
         }
 
         private static string ParseAndMergeSource(string sourceFile, Dictionary<string, string> arguments)
