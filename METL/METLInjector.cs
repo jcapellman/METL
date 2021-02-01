@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 
 using METL.Enums;
+using METL.Helpers;
 using METL.InjectorMerges.Base;
 
 namespace METL
@@ -23,7 +24,7 @@ namespace METL
             var binaryOutput = Path.Combine(fullPath, $"Output\\{projectName}.exe");
             Directory.CreateDirectory(fullPath);
 
-            Process.Start($"dotnet new console -n {projectName}");
+            NETCLI.GenerateProject("console", projectName);
 
             File.WriteAllText(Path.Combine(fullPath, "Program.cs"), sourceCode);
 
