@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -19,18 +18,7 @@ namespace METL
         {
             var projectName = Guid.NewGuid().ToString().Replace("-","");
 
-            var fullPath = Path.Combine(AppContext.BaseDirectory, projectName);
-
-            var binaryOutput = Path.Combine(fullPath, $"Output\\{projectName}.exe");
-            Directory.CreateDirectory(fullPath);
-
-            NETCLI.GenerateProject("console", projectName);
-
-            File.WriteAllText(Path.Combine(fullPath, "Program.cs"), sourceCode);
-
-            Process.Start($"dotnet build -c Release -o Output");
-
-            return File.ReadAllBytes(binaryOutput);
+            return new NETCLI().CompileAndReturnBytes(sourceCode, projectName);
         }
 
         private static string ParseAndMergeSource(string sourceFile, Dictionary<string, string> arguments)
