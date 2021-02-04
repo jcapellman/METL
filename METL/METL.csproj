@@ -12,6 +12,7 @@
     <RepositoryUrl>https://github.com/jcapellman/METL</RepositoryUrl>
     <PackageTags>infosec, malware research</PackageTags>
     <RepositoryType>GitHub</RepositoryType>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

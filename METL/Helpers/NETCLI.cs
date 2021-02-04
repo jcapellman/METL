@@ -6,25 +6,36 @@ namespace METL.Helpers
 {
     public class NETCLI
     {
-        public byte[] CompileAndReturnBytes(string sourceCodeContent, string projectName)
+        private void DotnetProcess(string arguments, string workingPath = null)
         {
-            GenerateProject("console", projectName);
+            var procInfo = new ProcessStartInfo("dotnet")
+            {
+                Arguments = arguments,
+                WorkingDirectory = workingPath ?? AppContext.BaseDirectory,
+                RedirectStandardOutput = true
+            };
 
-            var fullPath = Path.Combine(AppContext.BaseDirectory, projectName);
-            
-            File.WriteAllText(Path.Combine(fullPath, "Program.cs"), sourceCodeContent);
+            var process = new Process
+            {
+                StartInfo = procInfo
+            };
 
-            Process.Start($"dotnet build -c Release -o Output");
+            process.Start();
 
-            return File.ReadAllBytes(Path.Combine(fullPath, $"bin\\Release\\Net5.0\\{projectName}.exe"));
+            process.WaitForExit();
         }
 
-        private bool GenerateProject(string projectType, string projectName)
+        public byte[] CompileAndReturnBytes(string sourceCodeContent, string projectName)
         {
-            Process.Start($"dotnet new {projectType} -n {projectName}");
+            DotnetProcess($"new console -n {projectName}");
 
-            // TODO: handle errors
-            return true;
+            var fullPath = Path.Combine(AppContext.BaseDirectory, projectName);
+
+            File.WriteAllText(Path.Combine(fullPath, "Program.cs"), sourceCodeContent);
+
+            DotnetProcess("publish -c Release -r win-x64 -p:PublishSingleFile=true --self-contained false", fullPath);
+
+            return File.ReadAllBytes(Path.Combine(fullPath, $"bin\\Release\\net5.0\\win-x64\\publish\\{projectName}.exe"));
         }
     }
 }

@@ -39,6 +39,7 @@ namespace METL.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(DirectoryNotFoundException))]
         public void PE32BadCode()
         {
             var malFile = Path.Combine(AppContext.BaseDirectory, "Samples/sourcePE");
