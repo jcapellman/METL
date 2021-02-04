@@ -3,16 +3,17 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.1</Version>
+    <Version>0.1</Version>
     <Authors>Jarred Capellman</Authors>
-    <Description>Initial version supporting Injection and Appending</Description>
-    <Copyright>2020 Jarred Capellman</Copyright>
+    <Description>Injection</Description>
+    <Copyright>2021 Jarred Capellman</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/jcapellman/METL</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jcapellman/METL</RepositoryUrl>
     <PackageTags>infosec, malware research</PackageTags>
     <RepositoryType>GitHub</RepositoryType>
     <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
