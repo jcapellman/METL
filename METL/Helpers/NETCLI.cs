@@ -35,7 +35,7 @@ namespace METL.Helpers
 
             DotnetProcess("publish -c Release -r win-x64 -p:PublishSingleFile=true --self-contained false", fullPath);
 
-            return File.ReadAllBytes(Path.Combine(fullPath, $"bin\\Release\\net5.0\\win-x64\\publish\\{projectName}.exe"));
+            return File.ReadAllBytes(Path.Combine(fullPath, $"bin{Path.DirectorySeparatorChar}net5.0{Path.DirectorySeparatorChar}win-x64{Path.DirectorySeparatorChar}publish{Path.DirectorySeparatorChar}{projectName}.exe"));
         }
     }
 }

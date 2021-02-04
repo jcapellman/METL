@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Authors>Jarred Capellman</Authors>
     <Description>Injection via .NET CLI</Description>
     <Copyright>2021 Jarred Capellman</Copyright>
@@ -13,7 +13,7 @@
     <PackageTags>infosec, malware research</PackageTags>
     <RepositoryType>GitHub</RepositoryType>
     <Platforms>AnyCPU;x64</Platforms>
-    <AssemblyVersion>0.1.1.0</AssemblyVersion>
+    <AssemblyVersion>0.1.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
