@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.4</Version>
+    <Version>0.1.5</Version>
     <Authors>Jarred Capellman</Authors>
     <Description>Injection via .NET CLI</Description>
     <Copyright>2021 Jarred Capellman</Copyright>
@@ -12,8 +12,7 @@
     <RepositoryUrl>https://github.com/jcapellman/METL</RepositoryUrl>
     <PackageTags>infosec, malware research</PackageTags>
     <RepositoryType>GitHub</RepositoryType>
-    <Platforms>AnyCPU;x64</Platforms>
-    <AssemblyVersion>0.1.4.0</AssemblyVersion>
+    <AssemblyVersion>0.1.5.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
