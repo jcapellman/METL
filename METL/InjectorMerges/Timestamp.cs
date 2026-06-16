@@ -1,14 +1,17 @@
-﻿using System;
 using System.Globalization;
 
 using METL.InjectorMerges.Base;
 
-namespace METL.InjectorMerges
-{
-    public class Timestamp : BaseInjectorMerge
-    {
-        public override string FIELD_NAME => "TIMESTAMP";
+namespace METL.InjectorMerges;
 
-        public override string Merge(string argument = null) => DateTime.Now.ToString(CultureInfo.InvariantCulture);
-    }
+/// <summary>
+/// Merge strategy for inserting current timestamp.
+/// </summary>
+public class Timestamp : BaseInjectorMerge
+{
+    /// <inheritdoc/>
+    public override string FIELD_NAME => "TIMESTAMP";
+
+    /// <inheritdoc/>
+    public override string? Merge(string? argument = null) => DateTime.Now.ToString(CultureInfo.InvariantCulture);
 }
