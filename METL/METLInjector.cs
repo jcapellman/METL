@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
+using METL.Diagnostics;
 using METL.Enums;
 using METL.Helpers;
 using METL.InjectorMerges.Base;
@@ -14,8 +15,22 @@ public static class METLInjector
 {
     private static byte[] CompileCodeToBytes(string sourceCode)
     {
+        METLLogger.Debug($"CompileCodeToBytes called - Code length: {sourceCode.Length} characters");
+
         var projectName = Guid.NewGuid().ToString().Replace("-", "");
-        return new NETCLI().CompileAndReturnBytes(sourceCode, projectName);
+        METLLogger.Info($"Starting compilation with project name: {projectName}");
+
+        try
+        {
+            var result = new NETCLI().CompileAndReturnBytes(sourceCode, projectName);
+            METLLogger.Info($"Compilation successful - Output size: {result.Length} bytes");
+            return result;
+        }
+        catch (Exception ex)
+        {
+            METLLogger.Error(ex, "Compilation failed");
+            throw;
+        }
     }
 
     private static async Task<byte[]> CompileCodeToBytesAsync(string sourceCode, CancellationToken cancellationToken = default)
@@ -28,6 +43,8 @@ public static class METLInjector
 
     private static string ParseAndMergeSource(string sourceFile, Dictionary<string, string>? arguments)
     {
+        METLLogger.Debug("Starting mail merge parsing");
+
         var merges = Assembly.GetAssembly(typeof(BaseInjectorMerge))?
             .GetTypes()
             .Where(a => a.BaseType == typeof(BaseInjectorMerge) && !a.IsAbstract)
@@ -36,14 +53,22 @@ public static class METLInjector
 
         if (merges == null)
         {
+            METLLogger.Error("Failed to obtain mail merges");
             throw new InvalidOperationException($"Failed to obtain mail merges");
         }
 
+        METLLogger.Info($"Found {merges.Count} mail merge handlers");
         arguments ??= new Dictionary<string, string>();
 
-        return merges.Aggregate(sourceFile, (current, merge) =>
-            current.Replace($"[{merge.FIELD_NAME}]",
-                merge.Merge(arguments.ContainsKey(merge.FIELD_NAME) ? arguments[merge.FIELD_NAME] : null)));
+        var result = merges.Aggregate(sourceFile, (current, merge) =>
+        {
+            var hasValue = arguments.ContainsKey(merge.FIELD_NAME);
+            METLLogger.Debug($"Processing merge field: {merge.FIELD_NAME} - Has value: {hasValue}");
+            return current.Replace($"[{merge.FIELD_NAME}]",
+                merge.Merge(hasValue ? arguments[merge.FIELD_NAME] : null));
+        });
+
+        return result;
     }
 
     #region Built-in Template Methods

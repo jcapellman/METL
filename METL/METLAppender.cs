@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using METL.Diagnostics;
 
 namespace METL;
 
@@ -17,22 +18,28 @@ public static class METLAppender
     /// <exception cref="FileNotFoundException">Thrown when the embed file does not exist.</exception>
     public static byte[] AppendBytesFromFile([NotNull] byte[] source, string embedFileName)
     {
+        METLLogger.Debug($"AppendBytesFromFile called - Source size: {source?.Length ?? 0} bytes, File: {embedFileName}");
+
         if (source == null)
         {
+            METLLogger.Error("Source byte array is null");
             throw new ArgumentNullException(nameof(source));
         }
 
         if (string.IsNullOrEmpty(embedFileName))
         {
+            METLLogger.Error("Embed filename is null or empty");
             throw new ArgumentNullException(nameof(embedFileName));
         }
 
         if (!File.Exists(embedFileName))
         {
+            METLLogger.Error($"Embed file not found: {embedFileName}");
             throw new FileNotFoundException($"Embed file not found: {embedFileName}", embedFileName);
         }
 
         var embedBytes = File.ReadAllBytes(embedFileName);
+        METLLogger.Info($"Successfully loaded embed file: {embedFileName} ({embedBytes.Length} bytes)");
 
         return AppendBytesFromBytes(source, embedBytes);
     }
@@ -81,19 +88,25 @@ public static class METLAppender
     /// <exception cref="ArgumentNullException">Thrown when source or embedBytes is null.</exception>
     public static byte[] AppendBytesFromBytes([NotNull] byte[] source, [NotNull] byte[] embedBytes)
     {
+        METLLogger.Debug($"AppendBytesFromBytes called - Source: {source?.Length ?? 0} bytes, Embed: {embedBytes?.Length ?? 0} bytes");
+
         if (source == null)
         {
+            METLLogger.Error("Source byte array is null");
             throw new ArgumentNullException(nameof(source));
         }
 
         if (embedBytes == null)
         {
+            METLLogger.Error("Embed byte array is null");
             throw new ArgumentNullException(nameof(embedBytes));
         }
 
         var result = new byte[source.Length + embedBytes.Length];
         Buffer.BlockCopy(source, 0, result, 0, source.Length);
         Buffer.BlockCopy(embedBytes, 0, result, source.Length, embedBytes.Length);
+
+        METLLogger.Info($"Successfully appended bytes - Total size: {result.Length} bytes");
 
         return result;
     }
