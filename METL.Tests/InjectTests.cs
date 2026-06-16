@@ -114,21 +114,17 @@ public class InjectTests
     }
 
     [TestMethod]
-    public void PE32NullMalwareFile_ThrowsArgumentNullException()
+    public void PE32EmptyMalwareFile_UsesEmptyString()
     {
         // Arrange
         var sourceFile = Path.Combine(AppContext.BaseDirectory, "Samples/PE32.cs");
 
-        // Act & Assert
-        try
-        {
-            METLInjector.InjectFromFile(sourceFile, new Dictionary<string, string> { { "MALWARE_EMBED", "" } });
-            Assert.Fail("Expected FileNotFoundException was not thrown");
-        }
-        catch (FileNotFoundException)
-        {
-            // Expected
-        }
+        // Act - Empty malware file path should compile with empty string
+        var result = METLInjector.InjectFromFile(sourceFile, new Dictionary<string, string> { { "MALWARE_EMBED", "" } });
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.Length > 0);
     }
 
     [TestMethod]

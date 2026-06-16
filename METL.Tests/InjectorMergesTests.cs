@@ -37,39 +37,33 @@ public class InjectorMergesTests
     }
 
     [TestMethod]
-    public void MalwareEmbedder_WithNullArgument_ThrowsArgumentNullException()
+    public void MalwareEmbedder_WithNullArgument_ReturnsEmptyString()
     {
         // Arrange
         var merger = new MalwareEmbedder();
 
-        // Act & Assert
-        try
-        {
-            merger.Merge(null);
-            Assert.Fail("Expected ArgumentNullException was not thrown");
-        }
-        catch (ArgumentNullException)
-        {
-            // Expected
-        }
+        // Act
+        var result = merger.Merge(null);
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.Contains("malSource"));
+        Assert.IsTrue(result.Contains("string.Empty"));
     }
 
     [TestMethod]
-    public void MalwareEmbedder_WithEmptyArgument_ThrowsArgumentNullException()
+    public void MalwareEmbedder_WithEmptyArgument_ReturnsEmptyString()
     {
         // Arrange
         var merger = new MalwareEmbedder();
 
-        // Act & Assert
-        try
-        {
-            merger.Merge(string.Empty);
-            Assert.Fail("Expected ArgumentNullException was not thrown");
-        }
-        catch (ArgumentNullException)
-        {
-            // Expected
-        }
+        // Act
+        var result = merger.Merge(string.Empty);
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.Contains("malSource"));
+        Assert.IsTrue(result.Contains("string.Empty"));
     }
 
     [TestMethod]
